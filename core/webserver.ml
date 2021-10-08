@@ -352,7 +352,8 @@ struct
       Conduit_lwt_unix.init ~src:host () >>= fun ctx ->
       let ctx = Cohttp_lwt_unix.Net.init ~ctx () in
       Debug.print ("Starting server (2)?\n");
-      Cohttp_lwt_unix.Server.create ~ctx ~mode:(`TCP (`Port port))
+      Cohttp_lwt_unix.Server.create ~ctx ~mode:(`TLS (`Crt_file_path "cert.pem", `Key_file_path "key.pem", `No_password, `Port port))
+      (* Cohttp_lwt_unix.Server.create ~ctx ~mode:(`TCP (`Port port)) *)
         (Cohttp_lwt_unix.Server.make_response_action ~callback:(callback rt render_cont) ()) in
 
     Debug.print ("Starting server?\n");
